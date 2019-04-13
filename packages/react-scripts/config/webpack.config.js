@@ -534,14 +534,14 @@ module.exports = function(webpackEnv) {
           isEnvProduction
             ? {
                 minify: {
-                  removeComments: true,
-                  collapseWhitespace: true,
+                  removeComments: false,
+                  collapseWhitespace: false,
                   removeRedundantAttributes: true,
                   useShortDoctype: true,
                   removeEmptyAttributes: true,
                   removeStyleLinkTypeAttributes: true,
                   keepClosingSlash: true,
-                  minifyJS: true,
+                  minifyJS: false,
                   minifyCSS: true,
                   minifyURLs: true,
                 },
