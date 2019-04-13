@@ -74,7 +74,8 @@
   "devDependencies": {
     "lint-staged": "^8.1.5",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "webpack-require-from": "^1.7.0"
   },
   "optionalDependencies": {
     "fsevents": "1.2.4"
