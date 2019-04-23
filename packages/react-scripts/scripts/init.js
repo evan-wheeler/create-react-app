@@ -97,6 +97,11 @@ module.exports = function(
   appPackage.scripts = {
     start: 'react-scripts start',
     build: 'react-scripts build',
+
+    // Begin Syntergy Customization
+    publish: 'react-scripts publish',
+    // End Syntergy Customization
+
     test: 'react-scripts test',
     eject: 'react-scripts eject',
   };
@@ -105,6 +110,12 @@ module.exports = function(
   appPackage.eslintConfig = {
     extends: 'react-app',
   };
+
+  // Begin Syntergy Customization
+  appPackage.dynamicPublicPathConfig = {
+    methodName: 'getChunkURL',
+  };
+  // End Syntergy Customization
 
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;

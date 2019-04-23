@@ -31,9 +31,16 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const WebpackRequireFrom = require('webpack-require-from');
+const FoldInlineChunkHtmlPlugin = require('html-webpack-fold-inline-chunk-plugin');
 
+// Syntergy Customization
+//  Use WebpackRequireFrom to allow customization of publicPath at runtime.
+const WebpackRequireFrom = require('webpack-require-from');
 const webpackRequireFromConfig = paths.dynamicPublicPathConfig;
+
+// Set max line length for inlined scripts.
+const maxInlineScriptLineLen = 80;
+// End Syntergy Customization
 
 // @remove-on-eject-begin
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
@@ -522,7 +529,13 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
-      new WebpackRequireFrom(webpackRequireFromConfig),
+      // Syntergy Customization
+      //  Use WebpackRequireFrom to allow customization of publicPath at runtime.
+      //  Only use in production build.
+
+      isEnvProduction && new WebpackRequireFrom(webpackRequireFromConfig),
+      // End Syntergy Customization
+
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -554,7 +567,16 @@ module.exports = function(webpackEnv) {
       isEnvProduction &&
         shouldInlineRuntimeChunk &&
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
-      // Makes some environment variables available in index.html.
+
+      // Syntergy customization
+      // Limits line length of inlined scripts
+      isEnvProduction &&
+        shouldInlineRuntimeChunk &&
+        new FoldInlineChunkHtmlPlugin(
+          HtmlWebpackPlugin,
+          maxInlineScriptLineLen
+        ),
+
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
       // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
       // In production, it will be an empty string unless you specify "homepage"
