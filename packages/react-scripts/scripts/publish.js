@@ -137,16 +137,16 @@ function publish(modPaths) {
   try {
     var data = fs.readFileSync(htmlBuild, 'utf8');
 
-    // patch any href='/static/css/ code to be src='`modImg`static/css/
+    // patch any href='/static/css/ code to be src='`.ModImg()`static/css/
     let result = data.replace(
       /\s*href=(['"])\/?static\/css\//g,
-      ' href=$1`modImg`static/css/'
+      ' href=$1`.ModImg()`static/css/'
     );
 
-    // patch any src='/static/js/ code to be src='`modImg`static/js/
+    // patch any src='/static/js/ code to be src='`.ModImg()`static/js/
     result = result.replace(
       /\s*src=(['"])\/?static\/js\//g,
-      ' src=$1`modImg`static/js/'
+      ' src=$1`.ModImg()`static/js/'
     );
 
     console.log(
