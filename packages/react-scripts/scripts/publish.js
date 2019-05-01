@@ -61,38 +61,7 @@ const modPaths = getModPaths(
 
 publish(modPaths);
 
-function getModPaths(buildPath, base, module, version, mainHTML) {
-  const defaultMain = 'index.html';
-
-  let normVer;
-
-  if (Array.isArray(version) && version.length === 3) {
-    normVer = version.join('_');
-  } else if (typeof version === 'string') {
-    normVer = version.split(/[.]/).join('_');
-  } else {
-    throw new Error('expected installPath.version to be array or string');
-  }
-
-  const fullMod = `${module}_${normVer}`;
-
-  return {
-    modImg: path.join(base, 'module', fullMod, 'support'),
-    html: path.join(base, 'module', fullMod, 'html'),
-    img: path.join(base, 'support', module),
-    srcMain: path.join(buildPath, defaultMain),
-    targetMain: path.join(
-      base,
-      'module',
-      fullMod,
-      'html',
-      mainHTML || defaultMain
-    ),
-    build: buildPath,
-  };
-}
-
-const copyAll = (destImgPaths, modPaths, htmlBuild) => {
+function copyAll(destImgPaths, modPaths, htmlBuild) {
   destImgPaths.forEach(
     async dstPath =>
       await fs.copy(path.join(modPaths.build), dstPath, {
@@ -125,9 +94,40 @@ const copyAll = (destImgPaths, modPaths, htmlBuild) => {
         },
       })
   );
-};
+}
 
-function publish(buildPath, modPaths) {
+function getModPaths(buildPath, base, module, version, mainHTML) {
+  const defaultMain = 'index.html';
+
+  let normVer;
+
+  if (Array.isArray(version) && version.length === 3) {
+    normVer = version.join('_');
+  } else if (typeof version === 'string') {
+    normVer = version.split(/[.]/).join('_');
+  } else {
+    throw new Error('expected installPath.version to be array or string');
+  }
+
+  const fullMod = `${module}_${normVer}`;
+
+  return {
+    modImg: path.join(base, 'module', fullMod, 'support'),
+    html: path.join(base, 'module', fullMod, 'html'),
+    img: path.join(base, 'support', module),
+    srcMain: path.join(buildPath, defaultMain),
+    targetMain: path.join(
+      base,
+      'module',
+      fullMod,
+      'html',
+      mainHTML || defaultMain
+    ),
+    build: buildPath,
+  };
+}
+
+function publish(modPaths) {
   var destImgPaths = [modPaths.modImg, modPaths.img];
 
   // main html file in build directory

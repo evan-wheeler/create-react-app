@@ -568,7 +568,7 @@ module.exports = function(webpackEnv) {
         shouldInlineRuntimeChunk &&
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
 
-      // Syntergy customization
+      // Syntergy Customization
       // Limits line length of inlined scripts
       isEnvProduction &&
         shouldInlineRuntimeChunk &&
@@ -576,6 +576,7 @@ module.exports = function(webpackEnv) {
           HtmlWebpackPlugin,
           maxInlineScriptLineLen
         ),
+      // End Syntergy Customization
 
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
       // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
